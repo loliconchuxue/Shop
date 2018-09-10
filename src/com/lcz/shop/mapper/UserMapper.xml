@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lcz.shop.mapper.UserMapper">
+	<resultMap id="BaseResultMap" type="com.lcz.shop.entity.User">
+		<id column="user_id" jdbcType="BIGINT" property="userId" />
+		<result column="user_number" jdbcType="BIGINT" property="userNumber" />
+		<result column="user_name" jdbcType="VARCHAR" property="userName" />
+		<result column="login_password" jdbcType="VARCHAR" property="loginPassword" />
+		<result column="real_name" jdbcType="VARCHAR" property="realName" />
+		<result column="sex" jdbcType="BIT" property="sex" />
+		<result column="age" jdbcType="TINYINT" property="age" />
+		<result column="pic_img" jdbcType="VARCHAR" property="picImg" />
+		<result column="status" jdbcType="BIT" property="status" />
+		<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+		<result column="email" jdbcType="VARCHAR" property="email" />
+		<result column="regeist_time" jdbcType="TIMESTAMP" property="regeistTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		user_id, user_number, user_name, login_password, real_name,
+		sex, age, pic_img,
+		status,telephone,
+		email, regeist_time, update_time
+	</sql>
+	
+	<!-- 添加用户 -->
+	<insert id="insert" parameterType="com.lcz.shop.entity.User">
+    insert into os_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userNumber != null">
+        user_number,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="loginPassword != null">
+        login_password,
+      </if>
+      <if test="realName != null">
+        real_name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="picImg != null">
+        pic_img,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="telephone != null">
+        telephone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="regeistTime != null">
+        regeist_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userNumber != null">
+        #{userNumber,jdbcType=BIGINT},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPassword != null">
+        #{loginPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=BIT},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=TINYINT},
+      </if>
+      <if test="picImg != null">
+        #{picImg,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="regeistTime != null">
+        #{regeistTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 根据用户ID查找 -->
+  <select id="findById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from os_user
+    where user_id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  	<!-- 根据用户编号查找 -->
+  <select id="findByNumber" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from os_user
+    where user_number = #{number,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据用户名查找 -->
+  <select id="findByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from os_user
+    where user_name = #{userName,jdbcType=VARCHAR} and login_password=#{loginPassword,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据手机号查找 -->
+  <select id="findByPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from os_user
+    where telephone = #{telephone,jdbcType=VARCHAR} and login_password=#{loginPassword,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from os_user
+    where email = #{email,jdbcType=VARCHAR}
+  </select>
+  
+  <update id="resetPasswordByEmail" parameterType="java.lang.String" useGeneratedKeys="true" keyProperty="user_id">
+  update os_user set login_password=#{loginPassword}
+  where email=#{email};
+  </update>
+  <update id="updateUser" parameterType="com.lcz.shop.entity.User">
+  update os_user
+  <set>
+  	<if test="userName != null">
+  		user_name=#{userName,jdbcType=BIGINT},
+  	</if>
+  	<if test="loginPassword != null">
+  		login_password=#{loginPassword,jdbcType=VARCHAR},
+  	</if>
+  	<if test="realName != null">
+  		real_name=#{realName,jdbcType=VARCHAR},
+  	</if>
+  	<if test="sex != null">
+  		sex=#{sex,jdbcType=TINYINT},
+  	</if>
+  	<if test="age != null">
+  		age=#{age,jdbcType=TINYINT},
+  	</if>
+  	<if test="picImg != null">
+  		pic_img=#{picImg,jdbcType=VARCHAR},
+  	</if>
+  	<if test="telephone != null">
+  		telephone=#{telephone,jdbcType=VARCHAR},
+  	</if>
+  	<if test="email != null">
+  		email=#{email,jdbcType=VARCHAR},
+  	</if>
+  	<if test="status != null">
+  		status=#{status,jdbcType=TINYINT},
+  	</if>
+  	<if test="updateTime != null">
+  		update_time=#{updateTime,jdbcType=TIMESTAMP},
+  	</if>
+  </set>
+  where user_number=#{userNumber,jdbcType=BIGINT}
+  </update>
+  
+  <select id="getAllUser" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from os_user
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.Long">
+  	delete from os_user
+  	where user_id=#{userId,jdbcType=BIGINT}
+  </delete>
+</mapper>

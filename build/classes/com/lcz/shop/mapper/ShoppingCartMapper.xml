@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lcz.shop.mapper.ShoppingCartMapper">
+	<resultMap type="com.lcz.shop.entity.ShoppingCart" id="BaseResultMap">
+		<id column="shoppingcart_id" jdbcType="BIGINT" property="shoppingcartId" />
+		<result column="user_id" jdbcType="BIGINT" property="userId" />
+		<result column="product_id" jdbcType="BIGINT" property="productId" />
+		<result column="product_number" jdbcType="BIGINT" property="productNum" />
+		<result column="product_name" jdbcType="VARCHAR" property="productName" />
+		<result column="product_pic" jdbcType="VARCHAR" property="productPic" />
+		<result column="price" jdbcType="VARCHAR" property="price" />
+		<result column="status" jdbcType="TINYINT" property="status" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="create_user" jdbcType="VARCHAR" property="createUser" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		shoppingcart_id,user_id,product_id,product_number,product_name,product_pic,price,status,create_time,create_user
+	</sql>
+
+	<insert id="insertShoppingCart">
+		insert into os_shoppingcart
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="shoppingcartId != null">
+				shoppingcart_id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="productId != null">
+				product_id,
+			</if>
+			<if test="product_number != null">
+				productNum,
+			</if>
+			<if test="product_name != null">
+				productName,
+			</if>
+			<if test="product_pic != null">
+				productPic,
+			</if>
+			<if test="price != null">
+				price,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="createUser != null">
+				create_user,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="shoppingcartId != null">
+				#{shoppingcartId,jdbcType=BIGINT},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=BIGINT},
+			</if>
+			<if test="productId != null">
+				#{productId,jdbcType=BIGINT},
+			</if>
+			<if test="productNum != null">
+				#{productNum,jdbcType=BIGINT},
+			</if>
+			<if test="productName != null">
+				#{productName,jdbcType=VARCHAR},
+			</if>
+			<if test="productPic != null">
+				#{productPic,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createUser != null">
+				#{createUser,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<delete id="deleteShoppingCart" parameterType="java.lang.Long">
+	delete * from os_shoppingcart where shoppingcart_id=#{shoppingCartId}
+	</delete>
+	
+	<update id="updateShoppingCart" parameterType="com.lcz.shop.entity.ShoppingCart">
+	update os_shoppingcart
+	<set>
+		<if test="shoppingcartId != null">
+		shoppingcart_id=#{shoppingcartId,jdbcType=BIGINT},
+		</if>
+	</set>
+	<set>
+		<if test="userId != null">
+		user_id=#{userId,jdbcType=BIGINT},
+		</if>
+	</set>
+	<set>
+		<if test="productId != null">
+		product_id=#{productId,jdbcType=BIGINT},
+		</if>
+	</set>
+	<set>
+		<if test="productNum != null">
+		product_number=#{productNum,jdbcType=BIGINT},
+		</if>
+	</set>
+	<set>
+		<if test="productName != null">
+		product_name=#{productName,jdbcType=VARCHAR},
+		</if>
+	</set>
+	<set>
+		<if test="productPic != null">
+		product_pic=#{productPic,jdbcType=VARCHAR},
+		</if>
+	</set>
+	<set>
+		<if test="price != null">
+		price=#{price,jdbcType=VARCHAR},
+		</if>
+	</set>
+	<set>
+		<if test="status != null">
+		status=#{status,jdbcType=TINYINT},
+		</if>
+	</set>
+	<set>
+		<if test="createTime != null">
+		create_time=#{createTime,jdbcType=TIMESTAMP},
+		</if>
+	</set>
+	<set>
+		<if test="createUser != null">
+		create_user=#{createUser,jdbcType=VARCHAR},
+		</if>
+	</set>
+	</update>
+	
+	<select id="findShoppingCartByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	select * from os_shoppingcart where user_id=#{userId}
+	</select>
+	
+</mapper>
